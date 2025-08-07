@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { CategoryDropdown } from "./CategoryDropdown";
 import { CategoryModal } from "./CategoryModal";
+import { TagsDisplay } from "./TagsDisplay";
 import { Id } from "../../convex/_generated/dataModel";
 import {
   useReactTable,
@@ -24,6 +25,7 @@ type Transaction = {
   direction: "credit" | "debit";
   categoryId?: Id<"categories">;
   categoryNote?: string;
+  tags?: string[];
   category?: { _id: Id<"categories">; name: string } | null;
 };
 
@@ -149,6 +151,11 @@ export function TransactionTable() {
             onEditClick={() => handleEditClick(info.row.original)}
           />
         ),
+      }),
+      columnHelper.accessor("tags", {
+        header: "Tags",
+        cell: (info) => <TagsDisplay tags={info.getValue()} maxDisplay={2} />,
+        enableSorting: false,
       }),
     ],
     [categories, handleCategoryChange, handleEditClick]

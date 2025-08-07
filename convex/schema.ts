@@ -16,6 +16,7 @@ const applicationTables = {
     direction: v.union(v.literal("credit"), v.literal("debit")),
     categoryId: v.optional(v.id("categories")),
     categoryNote: v.optional(v.string()), // Optional note when categorizing
+    tags: v.optional(v.array(v.string())), // Array of tag strings
     userId: v.id("users"),
     statementId: v.id("statements"), // To group transactions from same upload
   })

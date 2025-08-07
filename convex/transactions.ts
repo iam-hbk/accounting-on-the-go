@@ -115,6 +115,7 @@ export const updateTransactionCategory = mutation({
     transactionId: v.id("transactions"),
     categoryId: v.optional(v.id("categories")),
     categoryNote: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -128,6 +129,7 @@ export const updateTransactionCategory = mutation({
     await ctx.db.patch(args.transactionId, {
       categoryId: args.categoryId,
       categoryNote: args.categoryNote,
+      tags: args.tags,
     });
   },
 });

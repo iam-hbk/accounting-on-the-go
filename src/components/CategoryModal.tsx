@@ -3,6 +3,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { CreateCategoryModal } from "./CreateCategoryModal";
+import { TagsInput } from "./TagsInput";
 
 interface Category {
   _id: Id<"categories">;
@@ -20,6 +21,7 @@ interface CategoryModalProps {
     direction: "credit" | "debit";
     categoryId?: Id<"categories">;
     categoryNote?: string;
+    tags?: string[];
   } | null;
   categories: Category[];
 }
@@ -32,6 +34,7 @@ export function CategoryModal({
 }: CategoryModalProps) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<Id<"categories"> | undefined>();
   const [categoryNote, setCategoryNote] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +45,7 @@ export function CategoryModal({
     if (transaction) {
       setSelectedCategoryId(transaction.categoryId);
       setCategoryNote(transaction.categoryNote || "");
+      setTags(transaction.tags || []);
     }
   }, [transaction]);
 
@@ -55,6 +59,7 @@ export function CategoryModal({
         transactionId: transaction._id,
         categoryId: selectedCategoryId,
         categoryNote: categoryNote.trim() || undefined,
+        tags: tags.length > 0 ? tags : undefined,
       });
       onClose();
     } catch (error) {
@@ -155,6 +160,17 @@ export function CategoryModal({
                 <p className="text-xs text-gray-500 mt-1">
                   Add context or reasoning for this categorization
                 </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tags (optional)
+                </label>
+                <TagsInput
+                  tags={tags}
+                  onChange={setTags}
+                  placeholder="Add tags like 'paid', 'pending', etc..."
+                />
               </div>
 
               <div className="flex space-x-3 pt-4">
