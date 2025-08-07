@@ -3,6 +3,7 @@ import { FileUpload } from "./FileUpload";
 import { TransactionTable } from "./TransactionTable";
 import { CategoryManager } from "./CategoryManager";
 import { UncategorizedTransactions } from "./UncategorizedTransactions";
+import { AnonymousUserBanner } from "./AnonymousUserBanner";
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState<"upload" | "transactions" | "categories" | "uncategorized">("upload");
@@ -17,6 +18,8 @@ export function Dashboard() {
           Upload, parse, and categorize your financial transactions
         </p>
       </div>
+
+      <AnonymousUserBanner />
 
       <div className="bg-white rounded-lg shadow-sm border">
         <div className="border-b">
